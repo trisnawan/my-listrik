@@ -20,9 +20,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?= base_url('billing') ?>">Tagihan</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="<?= base_url('billing/histories') ?>">Riwayat</a>
-                </li>
+                <?php if($user['is_admin'] ?? false): ?>
                 <li class="nav-item app-dropdown-nav dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Admin Panel
@@ -32,10 +30,14 @@
                             <a class="app-dropdown-item" href="<?= base_url('rates') ?>">Biaya Listrik</a>
                         </li>
                         <li>
-                            <a class="app-dropdown-item" href="<?= base_url('rates/customer') ?>">Tagihan Pelanggan</a>
+                            <a class="app-dropdown-item" href="<?= base_url('customer') ?>">Data Pelanggan</a>
+                        </li>
+                        <li>
+                            <a class="app-dropdown-item" href="<?= base_url('customer/billing') ?>">Tagihan Pelanggan</a>
                         </li>
                     </ul>
                 </li>
+                <?php endif ?>
                 <?php if($user['id'] ?? false): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +61,7 @@
                                     <i class="bi-person me-2"></i> Profile
                                 </div>
                             </a>
-                            <a href="<?= base_url('account.logout') ?>" style="text-decoration:none;">
+                            <a href="<?= base_url('account/logout') ?>" style="text-decoration:none;">
                                 <div class="text-danger pt-2 pb-2 ps-3 pe-3 bg-white border-bottom">
                                     <i class="bi-x-circle me-2"></i> Logout
                                 </div>

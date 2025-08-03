@@ -37,7 +37,7 @@ class RateModel extends Model
     protected $cleanValidationRules = true;
 
     protected $allowCallbacks = true;
-    protected $beforeInsert   = [];
+    protected $beforeInsert   = ['insertID'];
     protected $afterInsert    = [];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
@@ -45,4 +45,9 @@ class RateModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    protected function insertID(array $data){
+        $data['data']['id'] = preg_replace('/\D/', '', $data['data']['title']);
+        return $data;
+    }
 }

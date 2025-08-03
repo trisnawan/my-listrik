@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class UserCustomerModel extends Model
 {
     protected $table            = 'user_customer';
-    protected $primaryKey       = 'id';
+    protected $primaryKey       = 'user_id';
     protected $useAutoIncrement = false;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
@@ -32,7 +32,6 @@ class UserCustomerModel extends Model
         'user_id' => 'required',
         'rate_id' => 'required',
         'nomor_kwh' => 'required',
-        'alamat' => 'required',
     ];
     protected $validationMessages   = [];
     protected $skipValidation       = false;

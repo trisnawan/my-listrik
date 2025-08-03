@@ -39,9 +39,9 @@ class UserModel extends Model
     protected $cleanValidationRules = true;
 
     protected $allowCallbacks = true;
-    protected $beforeInsert   = ['insertID'];
+    protected $beforeInsert   = ['insertID','passHash'];
     protected $afterInsert    = [];
-    protected $beforeUpdate   = [];
+    protected $beforeUpdate   = ['passHash'];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
@@ -51,6 +51,10 @@ class UserModel extends Model
     protected function insertID(array $data){
         $ulid = Ulid::generate();
         $data['data']['id'] = (string) $ulid;
+        return $data;
+    }
+
+    protected function passHash(array $data){
         $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
         return $data;
     }
@@ -59,5 +63,16 @@ class UserModel extends Model
         $this->select("users.id, users.full_name, IF(user_admin.state = 'active', 1, 0) as is_admin");
         $this->join("user_admin", "user_admin.user_id = users.id", "left");
         return $this->find($userId);
+    }
+
+    public function login($email, $password){
+        $data = $this->where("email", $email)->first();
+        if(!$data) return null;
+
+        if(password_verify($password, $data['password'])){
+            return $this->getDataLogin($data['id']);
+        }
+
+        return null;
     }
 }
