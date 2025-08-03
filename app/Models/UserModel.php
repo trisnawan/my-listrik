@@ -48,23 +48,28 @@ class UserModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    // pembuatan ID dengan algoritma ULID setiap data user ditambahkan
     protected function insertID(array $data){
-        $ulid = Ulid::generate();
-        $data['data']['id'] = (string) $ulid;
+        $ulid = Ulid::generate(); // menggunakan library ULID
+        $data['data']['id'] = (string) $ulid; // memastikan format string
         return $data;
     }
 
+    // melakukan hashing terhadap kata sandi setiap insert dan update
     protected function passHash(array $data){
+        // menggunakan algoritma hash default
         $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
         return $data;
     }
 
+    // memuat data yang diperlukan dalam sesi login
     public function getDataLogin($userId){
         $this->select("users.id, users.full_name, IF(user_admin.state = 'active', 1, 0) as is_admin");
-        $this->join("user_admin", "user_admin.user_id = users.id", "left");
+        $this->join("user_admin", "user_admin.user_id = users.id", "left"); // join untuk validasi admin/customer
         return $this->find($userId);
     }
 
+    // melakukan pengecekan terhadap percobaan login
     public function login($email, $password){
         $data = $this->where("email", $email)->first();
         if(!$data) return null;

@@ -1,19 +1,23 @@
 <?php
 
+/** untuk menampilan error dari validasi menjadi format string
+ * yang mudah di implementasikan
+ */
 function getOneError($errors){
-    if(!$errors) return null;
+    if(!$errors) return null; // jika tidak ada pesan error, mengembalikan null
     $return = "";
-    foreach($errors as $key => $err){
+    foreach($errors as $key => $err){ // looping untuk mengambil pesan error
         if($return){
-            $return .= " ";
+            $return .= " "; // antar pesan error dipisahkan dengan spasi
         }
         $return .= $err;
     }
     return $return;
 }
 
+// menampilkan mata uang rupiah
 function rupiah($n){
-    return "Rp" . number_format($n,0);
+    return "Rp" . number_format($n,0); // number formatting ribuan
 }
 
 function getAlert(){
