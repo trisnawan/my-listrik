@@ -9,10 +9,12 @@ use App\Models\UserModel;
 class Account extends BaseController
 {
 
+    // untuk menampilkan profile akun
     public function getIndex(){
+        // validasi login
         if(!$userId = $this->session->get('id')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $userModel = new UserModel();
@@ -22,10 +24,12 @@ class Account extends BaseController
         return view('account/profile', $data);
     }
 
+    // untuk menyimpan data profile
     public function postIndex(){
+        // validasi login
         if(!$userId = $this->session->get('id')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $userModel = new UserModel();
@@ -50,11 +54,13 @@ class Account extends BaseController
         return redirect()->back();
     }
 
+    // menampilkan form pendaftaran
     public function getRegister(){
         $data['title'] = 'Daftar Pengguna Baru';
         return view('account/register', $data);
     }
 
+    // memproses pendaftaran
     public function postRegister(){
         $data = $this->request->getPost();
 
@@ -66,16 +72,19 @@ class Account extends BaseController
             return redirect()->back();
         }
 
+        // menyimpan sesi login
         $login = $userModel->getDataLogin($userId);
         $this->session->set($login);
         return redirect()->to('account');
     }
 
+    // menampilkan form login
     public function getLogin(){
         $data['title'] = 'Masuk';
         return view('account/login', $data);
     }
 
+    // memproses login
     public function postLogin(){
         $data = $this->request->getPost();
 
@@ -86,10 +95,12 @@ class Account extends BaseController
             return redirect()->back();
         }
 
+        // menyimpan sesi login
         $this->session->set($login);
         return redirect()->to('account');
     }
 
+    // logout dan mengakhiri sesi
     public function getLogout(){
         $this->session->destroy();
         return redirect()->to('account/login');

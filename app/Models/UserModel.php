@@ -74,6 +74,7 @@ class UserModel extends Model
         $data = $this->where("email", $email)->first();
         if(!$data) return null;
 
+        // pengecekan validasi kata sandi dengan algorima hasing
         if(password_verify($password, $data['password'])){
             return $this->getDataLogin($data['id']);
         }

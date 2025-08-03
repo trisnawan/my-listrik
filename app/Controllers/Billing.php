@@ -7,10 +7,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class Billing extends BaseController
 {
+
+    // menampilkan data tagihan pelanggan
     public function getIndex(){
+        // validasi login
         if(!$userId = $this->session->get('id')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $billing = new \App\Models\BillingModel();
@@ -23,10 +26,12 @@ class Billing extends BaseController
         return view('billing/list', $data);
     }
 
+    // menampilkan detail pembayaran pelanggan
     public function getPayment($billingId){
+        // validasi login
         if(!$userId = $this->session->get('id')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $billing = new \App\Models\BillingModel();
@@ -40,18 +45,22 @@ class Billing extends BaseController
         return view('billing/payment', $data);
     }
 
+    // memproses pembayaran dengan payment gateway
     public function getPayment_order($billingId){
+        // validasi login
         if(!$userId = $this->session->get('id')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
+        // mendapatkan data tagihan
         $billing = new \App\Models\BillingModel();
         $bill = $billing->find($billingId);
 
-        $fee = 5000;
-        $total = $bill['amount'] + $fee;
+        $fee = 5000; // biaya admin
+        $total = $bill['amount'] + $fee; // total pembayaran
 
+        // memproses pembayaran ke Payment Gateway
         $xendit = new \App\Libraries\Xendit\GatewayRequestAccept();
         $payment = $xendit->createInvoice($bill['id'], $total, base_url('billing/payment/'.$bill['id']));
         if(!$payment->isSuccess()){
@@ -59,8 +68,9 @@ class Billing extends BaseController
             return redirect()->back();
         }
 
-        $paymentData = $payment->getBody();
+        $paymentData = $payment->getBody(); // ambil response dari Payment Gateway
 
+        // menyimpan data pembayaran pelanggan
         $paymentModel = new \App\Models\PaymentModel();
         $insertId = $paymentModel->insert(
             [

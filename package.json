@@ -1,5 +1,31 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.7"
-  }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "playwright": "^1.54.2"
+  },
+  "name": "serkomlistrik",
+  "version": "1.0.0",
+  "description": "CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure. More information can be found at the [official site](https://codeigniter.com).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trisnawan/my-listrik.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/trisnawan/my-listrik/issues"
+  },
+  "homepage": "https://github.com/trisnawan/my-listrik#readme"
 }

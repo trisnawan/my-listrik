@@ -51,6 +51,7 @@ class PaymentModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
+    // otomatis menghasilkan id unik dengan algoritma ULID
     protected function insertID(array $data){
         $ulid = Ulid::generate();
         $data['data']['id'] = (string) $ulid;

@@ -10,18 +10,21 @@ use App\Models\RateModel;
 
 class Customer extends BaseController
 {
+
+    // menampilkan data pelanggan
     public function getIndex()
     {
+        // validasi login dan admin
         if(!$userId = $this->session->get('id') && $this->session->get('is_admin')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
             $this->session->destroy();
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $data['title'] = 'Data Pelanggan';
 
         $rate = new RateModel();
-        $data['rates'] = $rate->findAll();
+        $data['rates'] = $rate->findAll(); // data tarif daya
 
         $model = new UserModel();
         $model->select("users.*, user_customer.*");
@@ -34,23 +37,27 @@ class Customer extends BaseController
         return view('customer/list', $data);
     }
 
+    // menyimpan data tarif pelanggan
     public function postIndex(){
+        // validasi login dan admin
         if(!$userId = $this->session->get('id') && $this->session->get('is_admin')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
             $this->session->destroy();
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $model = new UserCustomerModel();
         $data = $this->request->getPost();
 
         if($model->find($data['user_id'])){
+            // ketika data sudah ada, maka proses update
             if(!$model->update($data['user_id'], $data)){
                 $error = getOneError($model->errors());
                 $this->session->setFlashdata('warning', $error);
                 return redirect()->back();
             }
         }else{
+            // ketika data belum ada, maka proses insert
             if(!$model->insert($data)){
                 $error = getOneError($model->errors());
                 $this->session->setFlashdata('warning', $error);
@@ -62,12 +69,14 @@ class Customer extends BaseController
         return redirect()->back();
     }
 
+    // menampilkan data riwayan tagihan
     public function getBilling()
     {
+        // validasi login dan admin
         if(!$userId = $this->session->get('id') && $this->session->get('is_admin')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
             $this->session->destroy();
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $billing = new \App\Models\BillingModel();
@@ -79,22 +88,27 @@ class Customer extends BaseController
         return view('customer/billing', $data);
     }
 
+    // memproses tagihan pelanggan
     public function postBilling()
     {
+        // validasi login dan admin
         if(!$userId = $this->session->get('id') && $this->session->get('is_admin')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
             $this->session->destroy();
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
+        // insert data tagihan pelanggan
         $data = $this->request->getPost();
         $model = new \App\Models\UserRateModel();
         if(!$insertId = $model->insert($data)){
+            // validasi insert jika gagal
             $error = getOneError($model->errors());
             $this->session->setFlashdata('warning', $error);
             return redirect()->back();
         }
 
+        // mengambil data daya pelanggan dan profile pelanggan
         $user = new UserModel();
         $user->select('rates.price');
         $user->join('user_customer', 'user_customer.user_id = users.id', 'left');
@@ -106,17 +120,20 @@ class Customer extends BaseController
             return redirect()->back();
         }
 
+        // memproses data tagihan total
         $bill['rate_id'] = $insertId;
         $bill['meter_total'] = $data['meter_end'] - $data['meter_start'];
         $bill['amount'] = $bill['meter_total'] * $userRate['price'];
         $bill['state'] = 'unpaid';
 
+        // validasi kesalahan input meter_awal dan meter_akhir dari meter_total
         if($bill['meter_total'] <= 0){
             $model->delete($insertId);
             $this->session->setFlashdata('warning', 'Silahkan masukan meter dengan valid');
             return redirect()->back();
         }
 
+        // menyimpan data tagihan total
         $billing = new \App\Models\BillingModel();
         if(!$billing->insert($bill)){
             $model->delete($insertId);
@@ -129,11 +146,13 @@ class Customer extends BaseController
         return redirect()->to('customer/billing');
     }
 
+    // menghapus data tagihan pelanggan
     public function getBilling_delete($id){
+        // validasi login dan admin
         if(!$userId = $this->session->get('id') && $this->session->get('is_admin')){
             $this->session->setFlashdata('warning', 'Silahkan login terlebih dahulu untuk mengakses fitur ini!');
             $this->session->destroy();
-            return redirect()->to('login');
+            return redirect()->to('account/login');
         }
 
         $model = new \App\Models\UserRateModel();
