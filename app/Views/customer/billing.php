@@ -20,7 +20,10 @@
                     <?php if($data): foreach($data as $i => $val): ?>
                     <tr>
                         <td class="text-center align-middle"><?= $val['month'] ?>/<?= $val['year'] ?></td>
-                        <td class="text-start align-middle"><?= $val['full_name'] ?></td>
+                        <td class="text-start align-middle">
+                            <div><?= $val['full_name'] ?></div>
+                            <div class="small"><i class="bi-envelope"></i> <?= $val['email'] ?></div>
+                        </td>
                         <td class="text-center align-middle"><?= $val['meter_total'] ?></td>
                         <td class="text-center align-middle"><?= rupiah($val['amount']) ?></td>
                         <td class="text-center align-middle text-<?= $val['state']=='paid' ? 'success' : 'danger' ?>"><?= strtoupper($val['state']) ?></td>

@@ -4,9 +4,10 @@
     $session = session();
     $user = $session->get();
 ?>
-<nav class="navbar navbar-expand-lg bg-light navbar-light sticky-top shadow-sm border-bottom">
-    <div class="container">
-        <a class="navbar-brand text-primary" href="<?= base_url() ?>">
+<nav class="navbar navbar-expand-lg bg-primary navbar-dark sticky-top shadow-sm border-bottom">
+    <div class="container py-2">
+        <a class="navbar-brand text-white" href="<?= base_url() ?>">
+            <i class="bi-lightning"></i>
             <?= getenv('CI_TITLE') ?>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -71,8 +72,8 @@
                 </li>
                 <?php else: ?>
                 <li class="nav-item ms-0 ms-lg-4">
-                    <a class="btn btn-primary" href="<?= base_url('account/login') ?>">Sign In</a>
-                    <a class="btn btn-outline-primary d-none d-xl-inline-block" href="<?= base_url('account/register') ?>">Sign Up</a>
+                    <a class="btn btn-light" href="<?= base_url('account/login') ?>">Sign In</a>
+                    <a class="btn btn-outline-light d-none d-xl-inline-block" href="<?= base_url('account/register') ?>">Sign Up</a>
                 </li>
                 <?php endif ?>
             </ul>

@@ -2,7 +2,7 @@
 
 const { test, expect } = require("@playwright/test");
 
-test("login form works correctly", async ({ page }) => {
+test("payment correctly", async ({ page }) => {
     await page.goto("http://localhost:8080/account/login");
     await page.fill('input[name="email"]', "halo.trisnasejati@gmail.com");
     await page.fill('input[name="password"]', "rindu");

@@ -18,7 +18,10 @@
                     <?php if($data): foreach($data as $i => $val): ?>
                     <tr>
                         <td class="text-center align-middle text-<?= $val['nomor_kwh'] ? 'dark' : 'warning' ?>"><?= $val['nomor_kwh'] ?? 'Belum dipasang' ?></td>
-                        <td class="text-start align-middle"><?= $val['full_name'] ?></td>
+                        <td class="text-start align-middle">
+                            <div><?= $val['full_name'] ?></div>
+                            <div class="small"><i class="bi-envelope"></i> <?= $val['email'] ?></div>
+                        </td>
                         <td class="text-center align-middle"><?= ($val['rate_title'] ?? '-') ?></td>
                         <td class="text-end align-middle">
                             <a href="#" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#tagihanModal" data-id="<?= $val['id'] ?>">Buat Tagihan</a>
