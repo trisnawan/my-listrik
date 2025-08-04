@@ -3,6 +3,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-6 mb-4">
                 <h2><?= getenv('CI_TITLE') ?></h2>
+                <p><?= getenv('CI_DESC') ?? '' ?></p>
             </div>
             <div class="col-sm-12 col-md-3 mb-4">
                 <h6 class="mb-4">Features</h6>

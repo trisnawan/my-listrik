@@ -58,7 +58,9 @@ class UserModel extends Model
     // melakukan hashing terhadap kata sandi setiap insert dan update
     protected function passHash(array $data){
         // menggunakan algoritma hash default
-        $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+        if($data['data']['password'] ?? false){
+            $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
+        }
         return $data;
     }
 

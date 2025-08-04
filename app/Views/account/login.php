@@ -3,6 +3,7 @@
 <section>
     <div class="container py-5">
         <h1 class="mb-4"><?= $title ?></h1>
+        <?= showAlert(getAlert()) ?>
         <form class="row" method="post" action="<?= current_url() ?>">
             <div class="col-12 mb-3">
                 <label for="email" class="form-label">Alamat email</label>

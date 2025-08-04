@@ -31,6 +31,7 @@ class Customer extends BaseController
         $model->select("rates.title as rate_title, rates.price as rate_price");
         $model->join('user_customer', 'user_customer.user_id = users.id', 'left');
         $model->join('rates', 'rates.id = user_customer.rate_id', 'left');
+        $model->where("(users.email NOT LIKE 'admin%')");
         $data['data'] = $model->orderBy('nomor_kwh', 'ASC')->findAll();
 
         $data['alert'] = getAlert();
