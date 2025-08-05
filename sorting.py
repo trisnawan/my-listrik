@@ -1,3 +1,4 @@
+# fungsi untuk menampilkan menu
 def tampilkan_menu():
     print("\n=== MENU ===")
     print("1. Input Angka")
@@ -6,6 +7,7 @@ def tampilkan_menu():
     print("4. Keluar")
     return input("Pilih menu (1-4): ")
 
+# fungsi untuk input angka ke dalam global array
 def input_angka():
     global angka_list
     angka_list.clear()
@@ -15,14 +17,16 @@ def input_angka():
         angka_list.append(angka)
     print("Data berhasil dimasukkan.")
 
+# fungsi untuk sorting data dengan quick search
 def quicksort(arr):
     if len(arr) <= 1:
         return arr
-    pivot = arr[0]
-    left = [x for x in arr[1:] if x <= pivot]
-    right = [x for x in arr[1:] if x > pivot]
-    return quicksort(left) + [pivot] + quicksort(right)
+    pivot = arr[0] # memilih pivot data
+    left = [x for x in arr[1:] if x <= pivot] # partisi ke left, dengan rekursi (perulangan)
+    right = [x for x in arr[1:] if x > pivot] # partisi ke right, dengan rekursi (perulangan)
+    return quicksort(left) + [pivot] + quicksort(right) # gabung array
 
+# fungsi untuk searching binary search
 def binary_search(arr, target):
     left = 0
     right = len(arr) - 1

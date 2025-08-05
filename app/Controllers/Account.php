@@ -6,6 +6,11 @@ use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\UserModel;
 
+/** Controller Account 
+ * - login
+ * - register
+ * - profile
+*/
 class Account extends BaseController
 {
 
